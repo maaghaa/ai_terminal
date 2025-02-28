@@ -1,90 +1,112 @@
-# AI Command Executor for Ubuntu
+# AI Terminal - Natural Language to UNIX Commands
 
-This project allows you to run natural language commands in your terminal and have them converted into Unix commands using an AI model (OpenAI's GPT). Simply type:
+AI Terminal is a command-line tool that converts natural language instructions into UNIX commands using OpenAI's GPT models. It's designed to help users quickly generate and execute terminal commands without needing to remember complex syntax.
 
-```bash
-ai count files in the folder
-```
+---
 
-And the script will:
-1. Prompt the AI to convert the natural language command into a Unix command.
-2. Display the generated command.
-3. Execute the command.
+## How to Install
 
-## Installation
+You can install AI Terminal directly using `wget`:
 
-Run the following commands to install the script:
+1. **Download and run the installation script**:
+   ```bash
+   wget https://raw.githubusercontent.com/maaghaa/ai_terminal/main/install_ai.sh
+   sudo bash install_ai.sh
+   ```
 
-```bash
-chmod +x install_ai.sh && sudo ./install_ai.sh
-```
+2. **Configure your OpenAI API key**:
+   - For system-wide configuration (requires `sudo`):
+     ```bash
+     sudo nano /etc/ai_terminal/ai.conf
+     ```
+   - For user-specific configuration:
+     ```bash
+     nano ~/.ai_terminal.conf
+     ```
 
-## Configuration
+   Set your API key in the configuration file:
+   ```ini
+   OPENAI_API_KEY = 'your-api-key-here'
+   ```
 
-The script uses a configuration file stored at `/etc/ai_command.conf`. After installation, you need to edit this file to provide your API details:
+3. **Verify the installation**:
+   Try running the tool with a simple command:
+   ```bash
+   ai list files in the current directory
+   ```
 
-```bash
-sudo nano /etc/ai_command.conf
-```
-
-Modify the following variables:
-
-```bash
-OPENAI_API_BASE_URL='https://api.openai.com/v1'
-OPENAI_API_KEY='your-api-key'
-OPENAI_MODEL_NAME='gpt-4-turbo'
-```
-
-Save and exit the file (`CTRL+X`, then `Y`, then `ENTER`).
+---
 
 ## Usage
 
-To use the command, simply type:
-
+Basic syntax:
 ```bash
 ai <natural language command>
 ```
 
-For example:
-
+Examples:
 ```bash
-ai count files in the folder
+ai list all text files in current directory
+ai show running processes sorted by memory usage
+ai find all files larger than 100MB in /var/log
 ```
 
-Example output:
+The tool will:
+1. Analyze your request
+2. Generate the appropriate UNIX command
+3. Prompt for confirmation before execution
 
-```
-Prompting AI...
-Executing: ls | wc -l
-23
-```
+---
 
-## How It Works
+## Configuration Options
 
-1. Reads the configuration from `/etc/ai_command.conf`.
-2. Sends the input command to the OpenAI API for conversion.
-3. Displays the generated Unix command.
-4. Executes the command in the terminal.
+The configuration file supports the following settings:
 
-## Uninstallation
-
-To remove the installed files, run:
-
-```bash
-sudo rm /usr/local/bin/ai /usr/local/bin/ai_command.py /etc/ai_command.conf
+```ini
+OPENAI_API_BASE_URL = 'https://api.openai.com/v1'  # API endpoint
+OPENAI_API_KEY = 'your-api-key-here'              # Your OpenAI API key
+MODEL_NAME = 'gpt-4o'                             # GPT model to use
 ```
 
-## Troubleshooting
+---
 
-- **API Key Not Set:** Ensure that `OPENAI_API_KEY` is correctly set in `/etc/ai_command.conf`.
-- **Permission Issues:** If you get permission errors, try running the script with `sudo`.
-- **AI Not Responding:** Check your `OPENAI_API_BASE_URL` and ensure your API key is valid.
+## Files and Locations
+
+- Installation directory: `/etc/ai_terminal/`
+- Python script: `/etc/ai_terminal/ai_command.py`
+- System-wide config: `/etc/ai_terminal/ai.conf`
+- User-specific config: `~/.ai_terminal.conf`
+- Virtual environment: `/etc/ai_terminal/venv/`
+- Wrapper script: `/usr/local/bin/ai`
+
+---
+
+## Safety Features
+
+- Always prompts for confirmation before executing commands
+- Highlights commands requiring sudo privileges
+- Allows command editing before execution
+- Sanitizes markdown and shell prompt characters
+- Runs in isolated Python virtual environment
+
+---
 
 ## Contributing
 
-Feel free to open issues or submit pull requests to improve this project.
+Contributions are welcome! Please open an issue or pull request for any bugs or feature requests.
+
+---
 
 ## License
 
-This project is open-source and licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+---
+
+## Disclaimer
+
+This tool uses AI-generated commands. Always review the generated commands before execution, especially for operations that could affect system stability or security. The authors are not responsible for any damage caused by improper use of this tool.
+
+---
+
+For more details, visit the repository: [https://github.com/maaghaa/ai_terminal](https://github.com/maaghaa/ai_terminal)
