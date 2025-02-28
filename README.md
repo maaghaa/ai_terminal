@@ -3,7 +3,7 @@
 This project allows you to run natural language commands in your terminal and have them converted into Unix commands using an AI model (OpenAI's GPT). Simply type:
 
 ```bash
-ais count files in the folder
+ai count files in the folder
 ```
 
 And the script will:
